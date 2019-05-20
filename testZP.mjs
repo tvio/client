@@ -5,7 +5,7 @@ import stringify from 'json-stringify-safe';
 import uuidv4 from 'uuid';
 
 const instance = axios.create({
-    baseURL: 'https://testsukl.iniba.eu/zp/v1',
+    baseURL: 'https://testapi.sukl.cz/zp/v1',
     httpsAgent: new https.Agent({
         ca: fs.readFileSync('../cert.pem'),
         cert: fs.readFileSync('../cert.pem'),
@@ -21,10 +21,13 @@ const config =  { headers: {
      }}
 //parametry pro data
 const podaniID =  uuidv4(); 
-const kodPracoviste =   "00150007957";
-const kodZP = "4000005";
+console.log('podani id '+podaniID);
+const kodPracoviste =   "00150007946";
+const kodZP = "0000812";
 const uhradovaSkupina = "01.01.02.01";
+//const uhradovaSkupina = "11";
 //prilohy uuid pro dali pouziti
+//priloha 7 pro 100% uhradovy limit, priloha 6 pro  50% uhradovy limit
 const p = { priloha6 : uuidv4(),
           priloha7 : uuidv4(),
           priloha8 : uuidv4(),
@@ -34,6 +37,7 @@ const p = { priloha6 : uuidv4(),
           priloha12 :uuidv4(),
           priloha13 :uuidv4()
 };
+console.log(p);
 
 
 //data pro preohlaseni, bez veci ohledne RZPRO, uhradova skipina!=11
@@ -48,10 +52,10 @@ const dataPostPreohlaseni = {
         },
     zp: {
         kodZP,
-        nazev: "ORTÉZA TRUPU INDIV. ZHOTOVENÁ",
+        nazev: "Test nazev souboru",
         doplnek: "OD 19 LET",
         uhradovaSkupina,
-        uhradovyLimit: 100,
+        // uhradovyLimit: 100,
         nejvyssiCena: 51.6,
         uhrada: 51.6,
         mernaJednotka: 1,
@@ -59,11 +63,11 @@ const dataPostPreohlaseni = {
       },
       telefon: "00420602123456",
       email: "test@sukl.cz",
-      poznamka: "Testovací request",
+      poznamka: "Testovací request preohlaseni klasika",
       prilohy: [
             {typPrilohyID: 8,                        
              priloha: p.priloha8, 
-             prilohaNazev: "priloha.pdf", 
+             prilohaNazev: "prilohaX.pdf", 
              dolozenoRZPRO: false
              },
             {typPrilohyID: 9,                        
@@ -90,6 +94,127 @@ const dataPostPreohlaseni = {
       ]
   };
         
+  const dataPostPreohlaseni11 = {
+    podaniID,
+    typID:2,
+    kodPracoviste,
+    sw: {
+        nazev: "No.js Test",
+        verze: "1.5",
+        vyrobce: "František Koudelka 3.Kyu"
+        },
+    zp: {
+        kodZP,
+        nazev: "ORTÉZA TRUPU INDIV. ZHOTOVENÁ",
+        doplnek: "OD 19 LET",
+        uhradovaSkupina,
+        uhradovyLimit: 100,
+        nejvyssiCena: 51.6,
+        uhrada: 51.6,
+        mernaJednotka: 1,
+        pocetMJ: 51.6
+      },
+      telefon: "00420602123456",
+      email: "test@sukl.cz",
+      poznamka: "Testovací reques preohlaseni 11",
+      prilohy: [  {typPrilohyID: 7,                        
+             priloha: p.priloha7, 
+             prilohaNazev: "priloha.pdf", 
+             dolozenoRZPRO: false
+            },
+            {typPrilohyID: 8,                        
+            //  priloha: p.priloha8, 
+            //  prilohaNazev: "priloha.pdf", 
+             dolozenoRZPRO: true
+             },
+            {typPrilohyID: 9,                        
+              //  priloha: p.priloha9, 
+              //   prilohaNazev: "priloha.pdf", 
+                dolozenoRZPRO: true
+            },
+            {typPrilohyID: 10,                        
+                // priloha: p.priloha10, 
+                // prilohaNazev: "priloha.pdf", 
+                dolozenoRZPRO: true
+            },
+            {typPrilohyID: 11,                        
+                // priloha: p.priloha11, 
+                // prilohaNazev: "priloha.pdf", 
+                dolozenoRZPRO: true
+            },
+            {typPrilohyID: 12,                        
+                priloha: p.priloha12, 
+                prilohaNazev: "priloha.pdf", 
+                dolozenoRZPRO: false
+            },
+            {typPrilohyID: 13,                        
+              priloha: p.priloha13, 
+              prilohaNazev: "priloha.pdf", 
+              dolozenoRZPRO: false
+            }
+      ]
+  };
+        
+  const dataNoveOhlaseni = {
+    podaniID,
+    typID:3,
+    kodPracoviste,
+    sw: {
+        nazev: "No.js Test",
+        verze: "1.5",
+        vyrobce: "František Koudelka 3.Kyu"
+        },
+    zp: {
+        // kodZP,
+        nazev: "ORTÉZA TRUPU INDIV. ZHOTOVENÁ",
+        doplnek: "OD 19 LET",
+        uhradovaSkupina,
+        uhradovyLimit: 100,
+        nejvyssiCena: 51.6,
+        uhrada: 51.6,
+        mernaJednotka: 1,
+        pocetMJ: 51.6
+      },
+      telefon: "00420602123456",
+      email: "test@sukl.cz",
+      poznamka: "Testovací request nove ohlaseni",
+      prilohy: [  {typPrilohyID: 7,                        
+             priloha: p.priloha7, 
+             prilohaNazev: "priloha.pdf", 
+             dolozenoRZPRO: false
+            },
+            {typPrilohyID: 8,                        
+            //  priloha: p.priloha8, 
+            //  prilohaNazev: "priloha.pdf", 
+             dolozenoRZPRO: true
+             },
+            {typPrilohyID: 9,                        
+              //  priloha: p.priloha9, 
+              //   prilohaNazev: "priloha.pdf", 
+                dolozenoRZPRO: true
+            },
+            {typPrilohyID: 10,                        
+                // priloha: p.priloha10, 
+                // prilohaNazev: "priloha.pdf", 
+                dolozenoRZPRO: true
+            },
+            {typPrilohyID: 11,                        
+                // priloha: p.priloha11, 
+                // prilohaNazev: "priloha.pdf", 
+                dolozenoRZPRO: true
+            },
+            {typPrilohyID: 12,                        
+                priloha: p.priloha12, 
+                prilohaNazev: "priloha.pdf", 
+                dolozenoRZPRO: false
+            },
+            {typPrilohyID: 13,                        
+              priloha: p.priloha13, 
+              prilohaNazev: "priloha.pdf", 
+              dolozenoRZPRO: false
+            }
+      ]
+  };
 
 // instance.get('/ciselniky//')
 // .then((res)=>console.log(res.data));
@@ -109,9 +234,9 @@ instance.post('/hlaseni',json,config)
                   // The request was made and the server responded with a status code
                   // that falls out of the range of 2xx
                   //console.log(error.request);
-                  console.log(error.response.data);
+                  console.log(stringify(error.response.data));
                   console.log('http status '+error.response.status);
-                console.log(error.request);                 //console.log(error.response.headers);
+               // console.log(error.request);                 //console.log(error.response.headers);
                   //console.log('detail',stringify(error.response.data));                    
                 } else if (error.request) {
                   // The request was made but no response was received
