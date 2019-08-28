@@ -39,6 +39,7 @@ const p = {
   priloha12: uuidv4(),
   priloha13: uuidv4()
 };
+console.log(p);
 
 //data pro preohlaseni, bez veci ohledne RZPRO, uhradova skipina!=11
 const dataPostPreohlaseni = {
